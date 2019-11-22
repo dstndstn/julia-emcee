@@ -1,0 +1,6 @@
+authors = ["Dustin Lang <dstndstn@gmail.com>"]
+name = "emcee"
+uuid = "6ffcc990-0d4a-11ea-1051-736846a87456"
+version = "0.1.0"
+
+[deps]
