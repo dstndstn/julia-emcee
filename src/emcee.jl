@@ -1,3 +1,5 @@
+__precompile__(false)
+
 """
 julia clone of the python package emcee. Only the
 affine invariante sampler is implemented
@@ -28,7 +30,7 @@ import Base.string, Base.show
 
 export Sampler, sample!, flatchain, getstats
 
-type Sampler
+mutable struct Sampler
     nwalkers::Int        # number of walkers
     ndim::Int            # number of dimensions
     niter::Int           # number of iterations
@@ -59,10 +61,10 @@ type Sampler
             throw(error(err))
         end
 
-        nochain=None
+        nochain=nothing
         noiter=0
-        nolnprob=None
-        noaccepted=None
+        nolnprob=nothing
+        noaccepted=nothing
 
         new(nwalkers,
             ndim,
@@ -106,7 +108,7 @@ returns
 function sample!(self::Sampler,
                  pstart::Array{Float64,2}, # (nwalkers,ndim)
                  niter::Int;
-                 lnprob=None)
+                 lnprob=nothing)
     p = deepcopy(pstart) # current set of parameters
     check_inputs(self, p)
     halfk=fld(self.nwalkers,2)
@@ -116,7 +118,7 @@ function sample!(self::Sampler,
     self.lnprob = zeros(self.nwalkers, self.niter)
     self.naccepted = zeros(self.nwalkers)
     
-    if lnprob == None
+    if lnprob == nothing
         lnprob = get_lnprob_walkers(self, p) # current set of lnprobs
     end
 
@@ -327,7 +329,7 @@ function test_line(; ntrial=1)
     offset=1.0
     slope=2.0
     yerr=0.3
-    ivar = 1./(yerr*yerr)
+    ivar = 1.0 / (yerr*yerr)
     npoints=25
 
     x = collect( linspace(0.0, 5.0, npoints) )
