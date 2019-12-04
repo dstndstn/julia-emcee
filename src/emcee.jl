@@ -28,7 +28,7 @@ module emcee
 
 import Base.string, Base.show
 
-export Sampler, sample!, flatchain, getstats
+#export Sampler, sample!, flatchain, getstats
 
 mutable struct Sampler
     nwalkers::Int        # number of walkers
